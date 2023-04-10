@@ -11,6 +11,8 @@ table{border-collapse:collapse;border-spacing:0}
 
 .App {
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .App-header {
