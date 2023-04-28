@@ -1,12 +1,42 @@
 import React, { useEffect, useState } from "react";
 import './App.css';
 import RadioButton from "./RadioButton";
+import Dropdown from "./Dropdown.js";
+import Range from "./Range.js"
 
 
 function App() {
+  
+  const options = [
+    { value: "A13B", label: "A13B" },
+    { value: "A13C", label: "A13C" },
+    { value: "A13D", label: "A13D" },
+  ];
+  const [isShown, setIsShown] = useState(false);
+  const [isCurrent, setIsCurrent] = useState(true);
   const [value, setValue] = useState("");
   const [text, setText] = useState("");
   const [click, setClick] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+  const current = () =>{
+    clickCurrent()
+    handleClickActive()
+  }
+  const common = () =>{
+    handleClickShow()
+    handleClickActive()
+  }
+  const handleClickShow = () => {
+      setIsCurrent(false)
+      setIsShown(true)
+  };
+  const clickCurrent = () =>{
+      setIsShown(false)
+      setIsCurrent(true)
+  }
+  const handleClickActive = () => {
+    setIsActive(current => !current);
+  };
   const handleClick = () =>{
     setClick(true);
   }
@@ -22,21 +52,37 @@ function App() {
   const handleFourChange = () => {
     setValue('4');
   };
-  const handleChange = event =>{
-    setText(event.target.value)
-  }
-  console.log(value)
-  console.log(text)
-  console.log(click)
+  // const handleChange = event =>{
+  //   setText(event.target.value)
+  // }
+  console.log(isCurrent)
+  console.log(isShown)
+  
+
   return (
     <div className="App">
        <div className="main__content">
         <div className="info__content">
             <div className="tab__name">
-                <div className="border">Tab 1</div>
+                <button className="border" style={{
+                          backgroundColor: isActive ? 'white' : '#008cfc',
+                          
+                          }}
+                          onClick={current}
+                >
+                          Tab 1</button>
+                          <button className="border" style={{
+                          backgroundColor: isActive ? '#008cfc' : 'white',
+                          
+                          }}
+                          onClick={common}
+                >
+                          Tab 2</button>
             </div>
             <div className="card__info">
             <div className='blue_back'></div>
+            {isCurrent && (
+              <>
                 <div className="number__card">
                     <div>Номер карты</div>
                 </div>
@@ -72,24 +118,50 @@ function App() {
                       </div>
                     </div>
                     <div className="name__card">
-                        <input className='num_card' type='text' onChange={handleChange} value={text} />
+                    <Dropdown
+                      isSearchable
+                      isMulti
+                      placeHolder=""
+                      options={options}
+                      onChange={(value) => console.log(value)}
+                    />
                     </div>
                     <div className="use__button">
                         <button className='attach__button' onClick={handleClick}>Приложить</button>
                     </div>
                 </div>
+             </>)}
+             {isShown && (
+                <>
+                <div className="number__card">
+                    <div>Автоматическое поднесение карт</div>
+                </div>
+                <div className="name__cards">
+                    <Dropdown
+                      isSearchable
+                      isMulti
+                      placeHolder=""
+                      options={options}
+                      onChange={(value) => console.log(value)}
+                    />
+                  </div>
+                  <Range/>
+                  <button>Задать параметры</button>
+                </>
+              )}
                 <div className="console__content">
                     <div className="console__name">
                         Консоль
                     </div>
                     <div className="console__place">
-                        {(click === true && value === '3' && text === "A1C2B9") ? `Kapдpидep${value} читает карту ${text}` 
+                        {(click === true && value === '3' && options.label === "A13B") ? `Kapдpидep${value} читает карту ${text}` 
                         : "Неверная карта или кapдpидep"}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     </div>
   );
 }
