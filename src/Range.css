@@ -1,4 +1,10 @@
 .container {
-    width: 90%;
-    margin: 8px auto;
-  }
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.console__conten{
+  margin-top: 20px;
+  width: 92%;
+}
+

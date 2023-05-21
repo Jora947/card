@@ -31,7 +31,7 @@ table{border-collapse:collapse;border-spacing:0}
 }
 .main__content{
   width: 675px;
-  height: 710px;
+  height: 750px;
 }
 .info__content{
   padding: 30px;
@@ -67,7 +67,7 @@ table{border-collapse:collapse;border-spacing:0}
 }
 .use__card{
   margin-top: 10px;
-  width: 400px;
+  width: 600px;
   display: flex;
   justify-content: space-around;
   
@@ -78,7 +78,7 @@ table{border-collapse:collapse;border-spacing:0}
 .console__place{
   border: 1px solid black;
   border-radius: 5px;
-  height: 170px;
+  height: 150px;
   
 }
 .console__name{

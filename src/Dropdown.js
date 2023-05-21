@@ -55,25 +55,25 @@ const Dropdown = ({
       return (
         <div className="dropdown-tags">
           {selectedValue.map((option) => (
-            <div key={option.value} className="dropdown-tag-item">
-              {option.label}
+            <div key={option.card} className="dropdown-tag-item">
+              {option.card}
             </div>
           ))}
         </div>
       );
     }
-    return selectedValue.label;
+    return selectedValue.card;
   };
 
   const removeOption = (option) => {
-    return selectedValue.filter((o) => o.value !== option.value);
+    return selectedValue.filter((o) => o.card !== option.card);
   };
 
 
   const onItemClick = (option) => {
     let newValue;
     if (isMulti) {
-      if (selectedValue.findIndex((o) => o.value === option.value) >= 0) {
+      if (selectedValue.findIndex((o) => o.card === option.card) >= 0) {
         newValue = removeOption(option);
       } else {
         newValue = [...selectedValue, option];
@@ -87,14 +87,14 @@ const Dropdown = ({
 
   const isSelected = (option) => {
     if (isMulti) {
-      return selectedValue.filter((o) => o.value === option.value).length > 0;
+      return selectedValue.filter((o) => o.card === option.card).length > 0;
     }
 
     if (!selectedValue) {
       return false;
     }
 
-    return selectedValue.value === option.value;
+    return selectedValue.card === option.card;
   };
 
   const onSearch = (e) => {
@@ -108,7 +108,7 @@ const Dropdown = ({
 
     return options.filter(
       (option) =>
-        option.label.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0
+      option.card.toString().toLowerCase().indexOf(searchValue.toLowerCase()) >= 0
     );
   };
 
@@ -132,10 +132,10 @@ const Dropdown = ({
           {getOptions().map((option) => (
             <div
               onClick={() => onItemClick(option)}
-              key={option.value}
+              key={option.card}
               className={`dropdown-item ${isSelected(option) && "selected"}`}
             >
-              {option.label}
+              {option.card}
             </div>
           ))}
         </div>

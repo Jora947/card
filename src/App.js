@@ -8,23 +8,26 @@ import { useFetch } from "./hooks/useFetch";
 import { getCards, getDevice, getdevice } from "./api/cardApi";
 import { Scrollbar } from 'react-scrollbars-custom';
 import Tab4 from "./hueta";
+import AllAction from "./allActions";
 
 function App() {
 
   const [isShown, setIsShown] = useState(false);
   const [isCurrent, setIsCurrent] = useState(true);
   const [value, setValue] = useState("");
-  const [text, setText] = useState("");
+  const [text, setText] = useState();
   const [isTabOneActive, setIsTabOneActive] = useState(true);
   const [isTabTwoActive, setIsTabTwoActive] = useState(false);
   const [isTabThreeActive, setIsTabThreeActive] = useState(false);
+  const [isTabFourActive, setIsTabFourActive] = useState(false);
+  const [isTabFiveActive, setIsTabFiveActive] = useState(false);
 
   const [click, setClick] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [card, setCards] = useState([]);
   const [fetchCards, isCard, cardError] = useFetch(async () => {
     const response = await getCards()
-    setCards(response.data)
+    setCards(response.data.slice(0, 10))
   })
   const [device, setDevice] = useState([]);
   const [fetchDevice, isDevice, DeviceError] = useFetch(async () => {
@@ -36,32 +39,51 @@ function App() {
     setIsTabOneActive(true);
     setIsTabTwoActive(false);
     setIsTabThreeActive(false);
+    setIsTabFourActive(false)
+    setIsTabFiveActive(false);
   }
 
   const handleTabTwoClick = () => {
     setIsTabTwoActive(true);
     setIsTabOneActive(false);
     setIsTabThreeActive(false);
+    setIsTabFourActive(false)
+    setIsTabFiveActive(false);
   };
 
   const handleTabThreeClick = () => {
     setIsTabThreeActive(true);
     setIsTabOneActive(false);
     setIsTabTwoActive(false);
+    setIsTabFourActive(false)
+    setIsTabFiveActive(false);
+  };
+  const handleTabFourClick = () => {
+    setIsTabThreeActive(false);
+    setIsTabOneActive(false);
+    setIsTabTwoActive(false);
+    setIsTabFiveActive(false);
+    setIsTabFourActive(true)
+  };
+  const handleTabFiveClick = () => {
+    setIsTabThreeActive(false);
+    setIsTabOneActive(false);
+    setIsTabTwoActive(false);
+    setIsTabFourActive(false)
+    setIsTabFiveActive(true);
   };
 
   useEffect(() => {
     fetchCards()
     fetchDevice()
   }, [])
-
-  const options = [
-    card
-  ];
+  
+  console.log(text)
+ 
+ 
 
   return (
     <div className="App">
-      
       <div className="main__content">
         <div className="info__content">
           <div className="tab__name">
@@ -91,6 +113,24 @@ function App() {
               onClick={handleTabThreeClick}
             >
               Tab 3
+            </button>
+            <button
+              className="border"
+              style={{
+                backgroundColor: isTabFourActive ? '#008cfc' : 'white',
+              }}
+              onClick={handleTabFourClick}
+            >
+              Tab 4
+            </button>
+            <button
+              className="border"
+              style={{
+                backgroundColor: isTabFiveActive ? '#008cfc' : 'white',
+              }}
+              onClick={handleTabFiveClick}
+            >
+              Tab 5
             </button>
           </div>
           {isTabOneActive && (
@@ -135,7 +175,7 @@ function App() {
                     isSearchable
                     isMulti
                     placeHolder=""
-                    options={options}
+                    options={card}
                     onChange={(value) => console.log(value)}
                   />
                 </div>
@@ -148,7 +188,7 @@ function App() {
                   Консоль
                 </div>
                 <div className="console__place">
-                  {(click === true && value === '3' && options.label === "A13B" ? `Kapдpидep${value} читает карту ${text}` : "Неверная карта или кapдpидep")}
+                {(click === true && value === '3' && card[0].card ? `Kapдpидep${value} читает карту ${card[0].card}` : "Неверная карта или кардpидep")}
                 </div>
               </div>
             </div>
@@ -164,20 +204,12 @@ function App() {
                   isSearchable
                   isMulti
                   placeHolder=""
-                  options={options}
-                  onChange={(value) => console.log(value)}
+                  options={card}
+                  onChange={(value) => setText(value.map(card => card.card))}
                 />
               </div>
-              <Range />
-              <button>Задать параметры</button>
-              <div className="console__content">
-                <div className="console__name">
-                  Консоль
-                </div>
-                <div className="console__place">
-                  {(click === true && value === '3' && options.label === "A13B") ? `Kapдpидep${value} читает карту ${text}` : "Неверная карта или кapдpридеп"}
-                </div>
-              </div>
+              <Range card ={text}/>
+            
             </div>
           )}
           {isTabThreeActive && (
@@ -185,6 +217,18 @@ function App() {
              <div className='blue_back'></div>
              <DropDownPeople/>
            </div>
+          )}
+          {isTabFourActive && (
+            <div className="card__info">
+              <div className='blue_back'></div>
+              <Tab4/>
+            </div>
+          )}
+          {isTabFiveActive && (
+            <div className="card__info">
+            <div className='blue_back'></div>
+            <AllAction/>
+          </div>
           )}
         </div>
       </div>

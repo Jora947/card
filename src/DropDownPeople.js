@@ -109,7 +109,7 @@ export default function DropDownPeople() {
       </table>
     </div>
   )}
-  <button onClick={issuedInfo}  className="info-btn">Информация об оборудовании</button>
+  <button onClick={issuedInfo}  className="info-btn">Информация об оборудовании сотрудника</button>
   {show && selectedItemIndex !== -1 && (
     
   <div style={{ marginTop: "60px" }}>
